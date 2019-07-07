@@ -1,9 +1,12 @@
 require 'bundler/setup'
 
 require 'dotenv/load'
+
 require 'sinatra'
 require 'oauth2'
 
+require 'sinatra/reloader' if development?
+
 get '/' do
-  "Hello, world!"
+  erb :index
 end
