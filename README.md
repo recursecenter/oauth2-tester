@@ -4,7 +4,7 @@ A small web app that lets you test an API protected by OAuth 2.0 using an author
 
 ## Getting started
 
-Create an OAuth app on the authorization server. If you're running OAuth2 Tester locally, the redirect URI should be `http://localhost:4567`. If you need to use a different port, you can set `PORT` in your `.env` file (see below)
+Create an OAuth app on the authorization server. If you're running OAuth2 Tester locally, the redirect URI should be `http://localhost:4567/auth/callback`. If you need to use a different port, you can set `PORT` in your `.env` file (see below)
 
 Create a `.env` file in the project root with the following contents:
 
