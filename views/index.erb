@@ -1,1 +1,7 @@
-<p>Some text</p>
+<% unless authenticated? %>
+  <a href="/auth">Authenticate</a>
+<% else %>
+  <a href="/logout">Log out</a>
+
+  <pre><code><%= @response_json %></code></pre>
+<% end %>
