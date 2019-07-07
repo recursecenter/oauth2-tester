@@ -13,7 +13,7 @@ enable :sessions
 get '/' do
   if authenticated?
     token = token_from_session
-    body = token.get(ENV["TEST_URL"]).body
+    body = token.get(ENV["TEST_RESOURCE"]).body
     @response_json = JSON.pretty_generate(JSON.parse(body))
   end
 
@@ -49,6 +49,6 @@ helpers do
   end
 
   def client
-    OAuth2::Client.new(ENV["CLIENT_ID"], ENV["CLIENT_SECRET"], site: ENV["OAUTH_SITE"])
+    OAuth2::Client.new(ENV["CLIENT_ID"], ENV["CLIENT_SECRET"], site: ENV["AUTHORIZATION_SERVER"])
   end
 end
