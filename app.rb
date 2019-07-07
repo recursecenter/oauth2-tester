@@ -5,6 +5,8 @@ require 'sinatra'
 require 'erubi'
 require 'oauth2'
 
+require 'json'
+
 require 'sinatra/reloader' if development?
 
 set :erb, escape: true
@@ -12,9 +14,7 @@ enable :sessions
 
 get '/' do
   if authenticated?
-    token = token_from_session
-    body = token.get(ENV["TEST_RESOURCE"]).body
-    @response_json = JSON.pretty_generate(JSON.parse(body))
+    @output = get_test_resource
   end
 
   erb :index
@@ -41,14 +41,27 @@ helpers do
   def authenticated?
     !!session['token']
   end
+end
 
-  def token_from_session
-    return nil unless session['token']
+def get_test_resource
+  return nil unless session['token']
 
-    OAuth2::AccessToken.from_hash(client, session['token'])
+  token = OAuth2::AccessToken.from_hash(client, session['token'])
+  response = token.get(ENV["TEST_RESOURCE"])
+
+  s = "Status: #{response.status}\n"
+  s += response.headers.map { |k, v| "#{k}: #{v}" }.join("\n")
+  s += "\n\n"
+
+  if response.content_type == 'application/json'
+    s += JSON.pretty_generate(JSON.parse(response.body))
+  else
+    s += response.body
   end
 
-  def client
-    OAuth2::Client.new(ENV["CLIENT_ID"], ENV["CLIENT_SECRET"], site: ENV["AUTHORIZATION_SERVER"])
-  end
+  s
+end
+
+def client
+  OAuth2::Client.new(ENV["CLIENT_ID"], ENV["CLIENT_SECRET"], site: ENV["AUTHORIZATION_SERVER"])
 end
