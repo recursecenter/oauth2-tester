@@ -26,6 +26,8 @@ GEM
       pry (~> 0.11)
       yard (~> 0.9.11)
     rack (2.0.7)
+    rack-flash3 (1.0.5)
+      rack
     rack-protection (2.0.5)
       rack
     sinatra (2.0.5)
@@ -52,6 +54,7 @@ DEPENDENCIES
   oauth2
   pry
   pry-doc
+  rack-flash3
   sinatra
   sinatra-contrib
 

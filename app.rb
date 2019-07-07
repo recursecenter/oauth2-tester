@@ -2,6 +2,7 @@ require 'bundler/setup'
 
 require 'dotenv/load'
 require 'sinatra'
+require 'rack-flash'
 require 'erubi'
 require 'oauth2'
 
@@ -11,6 +12,7 @@ require 'sinatra/reloader' if development?
 
 set :erb, escape: true
 enable :sessions
+use Rack::Flash
 
 get '/' do
   if authenticated?
@@ -25,8 +27,12 @@ get '/auth' do
 end
 
 get '/auth/callback' do
-  token = client.auth_code.get_token(params[:code], redirect_uri: url('/auth/callback'))
-  session['token'] = token.to_hash
+  if params[:error]
+    flash[:error] = params[:error_description]
+  else
+    token = client.auth_code.get_token(params[:code], redirect_uri: url('/auth/callback'))
+    session['token'] = token.to_hash
+  end
 
   redirect to('/')
 end
@@ -44,10 +50,16 @@ helpers do
 end
 
 def get_test_resource
-  return nil unless session['token']
+  return unless session['token']
 
   token = OAuth2::AccessToken.from_hash(client, session['token'])
-  response = token.get(ENV["TEST_RESOURCE"])
+
+  begin
+    response = token.get(ENV["TEST_RESOURCE"])
+  rescue OAuth2::Error
+    session.destroy
+    return
+  end
 
   s = "Status: #{response.status}\n"
   s += response.headers.map { |k, v| "#{k}: #{v}" }.join("\n")

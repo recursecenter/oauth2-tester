@@ -11,6 +11,7 @@ gem "sinatra-contrib"
 gem "oauth2"
 gem "dotenv"
 gem "erubi"
+gem "rack-flash3"
 
 group :development do
   gem 'pry'

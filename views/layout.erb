@@ -7,6 +7,12 @@
 <body>
   <h1>OAuth2 Tester</h1>
 
-  <%== yield %>
+  <% if flash[:error] %>
+    <div style="color: red; margin-bottom: 1rem;"><%= flash[:error] %></div>
+  <% end %>
+
+  <div>
+    <%== yield %>
+  </div>
 </body>
 </html>
