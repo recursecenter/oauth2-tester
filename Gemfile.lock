@@ -4,6 +4,7 @@ GEM
     backports (3.15.0)
     coderay (1.1.2)
     dotenv (2.7.4)
+    erubi (1.8.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     jwt (2.2.1)
@@ -47,6 +48,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
+  erubi
   oauth2
   pry
   pry-doc

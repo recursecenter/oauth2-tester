@@ -10,6 +10,7 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "oauth2"
 gem "dotenv"
+gem "erubi"
 
 group :development do
   gem 'pry'

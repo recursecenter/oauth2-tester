@@ -2,9 +2,12 @@ require 'bundler/setup'
 
 require 'dotenv/load'
 require 'sinatra'
+require 'erubi'
 require 'oauth2'
+
 require 'sinatra/reloader' if development?
 
+set :erb, escape: true
 enable :sessions
 
 get '/' do
