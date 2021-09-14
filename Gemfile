@@ -2,10 +2,11 @@
 
 source "https://rubygems.org"
 
-ruby '2.6.5'
+ruby '3.0.2'
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
+gem "webrick"
 gem "sinatra"
 gem "sinatra-contrib"
 gem "oauth2"
